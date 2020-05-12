@@ -7,7 +7,7 @@ i=0
 j=0
 k=0
 if a==0:
-    while i < len(arr1) and j < len(arr2) and k<=b:
+    while i < len(arr1) and j < len(arr2) and k<c:
         if arr1[i]<arr2[j]:
             i=i+1
             k=k+1
