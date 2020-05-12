@@ -22,7 +22,7 @@ if a==0:
 
     print((arr1[i-1]+arr2[j-1])/2)
 else:
-    while i < len(arr1) and j < len(arr2) and k<=c:
+    while i < len(arr1) and j < len(arr2) and k<c:
         if arr1[i] < arr2[j]:
             i = i + 1
             k = k + 1
