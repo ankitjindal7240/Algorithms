@@ -1,5 +1,8 @@
 arr1 = [1,3,5,7,9,11]
 arr2 = [2,4,6,8,10,12]
+if arr1[len(arr1)-1]< arr2[0] or  arr1[0]> arr2[len(arr2)-1]:
+pass # ye codition abhi lagani hai
+
 a = (len(arr1)+ len(arr2))%2
 b = (len(arr1)+ len(arr2))//2
 c = b+1
