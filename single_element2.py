@@ -1,10 +1,5 @@
-def find_single(array):
-    if len(array)==3:                                       #kyoki jab aaray ki lenght 3 ho jati hai usko break karne ke chakkar me infinite recurssion ho jate hai
-        if array[0]==array[1]:                             #beech wale element ka pair jarur hoga
-            print(array[2])
-        else:
-           print(array[0])
-    elif len(array)==1:
+def find_single(array):    
+    if len(array)==1:
         print(array[0])
     else:
         mid = len(array)//2
