@@ -1,3 +1,4 @@
+#.    bahut he ghatiya code.     #
 # 1st rectangle l1,r1
 #2nd rectangle l2,r2
 x_of_l1=1
