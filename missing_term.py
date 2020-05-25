@@ -22,13 +22,13 @@ def missing(array):
     if array[mid] == midth_term:
         if (array[mid + 1] - array[mid]) != diff:
             print(array[mid] + diff)
-            return exit()
+            exit()
         else:
             missing(array[mid:])
     if array[mid]>midth_term:
         if (array[mid]-array[mid-1])!=diff:
             print (array[mid]-diff)
-            return exit()
+            exit()
         else:
             missing(array[:mid+1])
 missing(arr)
