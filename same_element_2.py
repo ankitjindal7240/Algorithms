@@ -32,3 +32,14 @@ def binary_search_last(arr,l,r,x):
 arr = [0,0,0,0,2,5,5,5,6,6,8,8,9,9,9]
 for i in range(10):
     print(binary_search_first(arr,0,len(arr)-1,i),binary_search_last(arr,0,len(arr)-1,i))
+#result
+# 0 3
+# -1 -1
+# 4 4
+# -1 -1
+# -1 -1
+# 5 7
+# 8 9
+# -1 -1
+# 10 11
+# 12 14
