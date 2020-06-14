@@ -1,24 +1,31 @@
-a=[6,2,5,4,5,1,6]
-# a=[1]
-# a=[1,2]
-# a=[1,2,3]
-# a=[1,2,3,4,5 ]
-# a=[9,8]
-# a=[9,8,7]
-# a=[1,2,3,4,5,4,3,2,1]
-# a=[1,1,1,1]
-max_area=0
+def max_area_histogram(a):
+    max_area=0
+    i=0
+    stack =[]
+    while i<len(a):
+        if len(stack)==0:
+            stack.append(i)
+            i+=1
+        elif len(stack)!=0 and a[stack[-1]]<=a[i]:
+            stack.append(i)
+            i += 1
+        elif a[stack[-1]]>a[i]:
+            highest_value=a[stack.pop()]
+            #stack.pop()
+            if len(stack)!=0:
+                area = highest_value * (i - stack[-1] - 1)
+            else:area =highest_value*(i)
 
-for i in range(len(a)):
-    left_index=i
-    right_index=i
-    while left_index>=0 and a[left_index]>=a[i]:
-        left_index-=1
-    left_index= left_index + 1
-    while right_index <= len(a)-1 and a[right_index] >= a[i]:
-        right_index= right_index + 1
-    right_index= right_index - 1
-    temp_max_area=a[i]*(right_index - left_index + 1)
-    if temp_max_area>max_area:
-        max_area=temp_max_area
-print(max_area)
+            max_area=max(area,max_area)
+    while len(stack) != 0:
+        highest_value=a[stack.pop()]
+        if len(stack)!=0:
+            area = highest_value * (i - stack[-1] - 1)
+        else:
+            area = highest_value * (i)
+
+        max_area = max(area, max_area)
+    return max_area
+
+
+
