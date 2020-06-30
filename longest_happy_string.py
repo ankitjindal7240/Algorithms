@@ -115,34 +115,7 @@ def happy_string(arr):
                         p= p+remaining_element_1*temp_elements[0]
                     if remaining_element_2:
                         p=p+remaining_element_2*temp_elements[1]
-                # if len(p) % 2 == 0:
-                #     no_of_4_letter_pairs = len(p) // places_must_be_filled
-                #     i = 0
-                #     while i < (4 * no_of_4_letter_pairs):
-                #         string = string + p[i:i + 4] + 2 * max_element
-                #         i = i + 4
-                #     i = 4 * no_of_4_letter_pairs
-                #     while i < len(p):
-                #         string = string + p[i:i + 2] + (2 * max_element)
-                #         i = i + 2
-                #     if max(arr) % 2 != 0:
-                #         string = string[:len(string) - 1]
-                #     return (string)
-                #
-                # else:
-                #     no_of_4_letter_pairs = (len(p) - 1) // places_must_be_filled
-                #     i = 0
-                #     while i < (4 * no_of_4_letter_pairs):
-                #         string = string + p[i:i + 4] + 2 * max_element
-                #         i = i + 4
-                #     i = 4 * no_of_4_letter_pairs
-                #     while i < len(p) - 1:
-                #         string = string + p[i:i + 2] + (2 * max_element)
-                #         i = i + 2
-                #     if max(arr) % 2 != 0:
-                #         string = string[:len(string) - 1]
-                #     string = string + p[-1]
-                #     return (string)
+             
                 string=p[:(len(p)-(2+ 2*places_must_be_filled))]
                 i=(len(p)-(2+ 2*places_must_be_filled))
                 while i <len(p)-2:
