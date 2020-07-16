@@ -1,49 +1,91 @@
-def mergeSort(arr):
-    if len(arr) > 1:
-        mid = len(arr) // 2  # Finding the mid of the array
-        L = arr[:mid]  # Dividing the array elements
-        R = arr[mid:]  # into 2 halves
+array = [4,3,2,1]
 
-        mergeSort(L)  # Sorting the first half
-        mergeSort(R)  # Sorting the second half
+class node:
+    def __init__(self,data):
+        self.data =data
+        self.next= None
+class linklist:
+    def __init__(self):
+        self.head=None
+        self.last=None
 
-        i = j = k = 0
+def insert(linklist,value):
+    if linklist.head==None:
+        linklist.head = node(value)
+        linklist.last = linklist.head
+    else:
+        linklist.last.next = node(value)
+        linklist.last = linklist.last.next
 
-        # Copy data to temp arrays L[] and R[]
-        while i < len(L) and j < len(R):
-            if L[i] < R[j]:
-                arr[k] = L[i]
-                i += 1
-            else:
-                arr[k] = R[j]
-                j += 1
-            k += 1
+def create_list_using_array(l,array):
+    for i in range(len(array)):
+        insert(l,array[i])
+    return l
 
-        # Checking if any element was left
-        while i < len(L):
-            arr[k] = L[i]
-            i += 1
-            k += 1
+def print_list(linklist):
+    temp=linklist.head
+    while temp!=None:
+        print(temp.data)
+        temp=temp.next
+l1=linklist()
+l1=create_list_using_array(l1,array)
 
-        while j < len(R):
-            arr[k] = R[j]
-            j += 1
-            k += 1
+def insert_2(linklist,node):
+    if linklist.head==None:
+        linklist.head = node
+        linklist.last = linklist.head
 
+def merge(l1,l2):
+    l3 = linklist()
+    l1=l1.head
+    l2=l2.head
+    if l1==None:
+        return l2
+    if l2==None:
+        return l1
+    temp=None
+    if l1.data<l2.data:
+        temp=l1
+        l1=l1.next
+    else:
+        temp=l2
+        l2=l2.next
+    l3.head=temp
+    while l1 and l2:
+        if l1.data<l2.data:
+            temp.next=l1
+            l1=l1.next
+        else:
+            temp.next=l2
+            l2=l2.next
+        temp=temp.next
+    if l1:
+        temp.next=l1
+    if l2:
+        temp.next=l2
+    return l3
 
-# Code to print the list
-def printList(arr):
-    for i in range(len(arr)):
-        print(arr[i], end=" ")
-    print()
+def merge_sort(l1):
+    if l1.head is None:
+        return l1
+    if l1.head.next is None:
+        return l1
+    mid =l1.head
+    fast=l1.head
+    while fast and fast.next:
+        if fast.next.next is None:
+            break
+        mid=mid.next
+        fast=fast.next.next
+    left=l1
 
+    right=linklist()
+    temp=mid.next
+    right.head=temp
+    mid.next=None
 
-# driver code to test the above code
-if __name__ == '__main__':
-    arr = [12, 11, 13, 5, 6, 7]
-    print("Given array is", end="\n")
-    printList(arr)
-    mergeSort(arr)
-    print("Sorted array is: ", end="\n")
-    printList(arr)
-
+    l=merge_sort(left)
+    r=merge_sort(right)
+    return merge(l,r)
+l1=merge_sort(l1)
+print_list(l1)
