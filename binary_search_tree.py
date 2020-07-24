@@ -38,3 +38,17 @@ def indert_from_array(array):
 r=indert_from_array(a)
 
 inorder(r)
+
+
+def search(root,value):
+    if root is None:
+        return "not present"
+    elif  root.value==value:
+        return root
+    elif root.value>value:
+        return search(root.left,value)
+    else:
+        return search(root.right,value)
+
+print(search(r,9))
+
