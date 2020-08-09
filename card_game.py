@@ -13,58 +13,62 @@ for i in range(1,14):
     a.append(("clubs",i))
 random.shuffle(a)
 
-
 p1=[]
 p2=[]
 system=[]
-# distribute all cards initially
-for i in range(4):
-    system.append(a.pop())
-while a:
-    p1.append(a.pop())
-    p2.append(a.pop())
-print(system)
-
 p1_score=[]
 p2_score=[]
-def players_turn(player,score_card):
-    for card in system:
-        for cards in player:
-            if card[1]==cards[1]:
-                score_card.append(player.pop(player.index(cards)))
-                score_card.append(system.pop(system.index(card)))
-                return
-    # not so intelligent  players😅
-    system.append(player.pop())
 
 
-while p1 and p2:
-    players_turn(p1, p1_score)
-    players_turn(p2, p2_score)
 
+# distribute_4-4_cards_initially
+for i in range(4):
+    system.append([a.pop()])
+    p1.append(a.pop())
+    p2.append(a.pop())
+print(p1)
+
+bid=int(input("if no card is greater than 8 input 0"))
+
+if bid==0:
+    exit()
+print(system)
+
+
+match=input("if there is match input yes else no")
+if match=="no":
+    throw=int(input("enter the index of card"))
+    system.append([p1.pop(throw)])
+else:
+    p1_score.append(p1.pop(int(input("give matched card index"))))
+    pick=input("index of picked card")
+    q=0
+    for i in range(len(pick)):
+        p1_score.append([system.pop(int(pick[i-q]))][0])
+        q=q+1
+print(p1_score,"\n",system,"\n")
+if len(system)==0:
+    p1_score.append(("sweep,25"))
+
+
+for i in range(8):
+        p1.append(a.pop())
+        p2.append(a.pop())
 
 # print(system)
-# print(p2_score)
-# print(p1_score)
+def players_turn(player,score_card):
+    print("your cards are",player)
+    if len(system)==0:
+        system.append([player.pop(int(input("index of card to be thrown")))])
+    else:
+        print("system cards are",system)
+        choice=input("choose - pick,cement,kaccha")
+        print(choice)
+        if choice=="pick":
+            pass
+        elif choice=="cement":
+            pass
+        elif choice=="kaccha":
+            pass
 
-s1=0
-s2=0
-
-def count_score(score_card):
-    s=0
-    for card in score_card:
-        if card[0]=="spades":
-            s=s+card[1]
-        if card[1]==1 and card[0]!="spades":
-            s=s+1
-        if card[0]=="diamonds" and card[1]==10:
-            s=s+6
-
-    return s
-s1=count_score(p1_score)
-s2=count_score(p2_score)
-print(s1,s2)
-if s1>s2:
-    print("player 1 is winner")
-else:
-    print("player 2 is winner")
+players_turn(p2,p2_score)
