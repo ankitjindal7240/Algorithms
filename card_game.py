@@ -1,17 +1,16 @@
 import random
-
 a = []
 for i in range(1, 14):
-    a.append(("diamonds", i))
+    a.append(("🔶", i))
 
 for i in range(1, 14):
-    a.append(("spades", i))
+    a.append(("♠️ ", i))
 
 for i in range(1, 14):
-    a.append(("hearts", i))
+    a.append(("❤️", i))
 
 for i in range(1, 14):
-    a.append(("clubs", i))
+    a.append(("♣️", i))
 random.shuffle(a)
 
 p1 = []
@@ -19,7 +18,7 @@ p2 = []
 system = []
 p1_score = []
 p2_score = []
-
+last_pickup=0
 
 def vlaue_of_house(house_index):
     sum = 0
@@ -29,70 +28,100 @@ def vlaue_of_house(house_index):
     return sum
 
 
-# distribute_4-4_cards_initially
+
 for i in range(4):
     system.append([a.pop()])
     p1.append(a.pop())
     p2.append(a.pop())
-print(p1)
+
+print("p1    =     ",p1)
 
 bid = int(input("if none of  card is greater than 8 input 0  \n "))
 if bid == 0:
     exit()
-print(system)
+print("system   =   ",system)
 
-match = input("if there is match input yes else no \n")
-if match == "no":
-    throw = int(input("if card is not matched enter the index of card you have to throw"))
-    # check
-    system.append([p1.pop(throw)])
-else:
+
+choice = input("choose - pick,house,throw")
+if choice == "pick":
     p1_score.append(p1.pop(int(input("index of card  in your  hand  \n "))))
-    pick = input("index of card matched with your card")
-
+    pick = input("index of cards to be picked")
+    # check
     q = 0
     for i in range(len(pick)):
         p1_score.append([system.pop(int(pick[i - q]))][0])
         q = q + 1
+    last_pickup=p1_score
+    if len(system) == 0:
+        p1_score.append(("sweep", 25))
 
-# print(p1_score,"\n",system,"\n")
-if len(system) == 0:
-    p1_score.append(("sweep",25))
-
-# distribute cards again
-for i in range(8):
-    p1.append(a.pop())
-    p2.append(a.pop())
+elif choice == "throw":
+    card = int(input("index of card to be thrown"))
+    system.append([p1.pop(card)])
 
 
-# print(system)
+
+elif choice == "house":
+    card = int(input("index of your card"))
+    system_cards=input("index of system cards")
+    s=p1[card][1]
+    for i in range(len(system_cards)):
+        s=s+system[int(system_cards[i])][0][1]
+    print(s/bid)
+    if (s/bid) == 1.0 or 2.0 or 3.0 or 4.0:
+        house=[]
+        house.append(p1.pop(card))
+        for i in range(len(system_cards)):
+            house.append(system[int(system_cards[i])][0])
+        q=0
+        for i in range(len(system_cards)):
+            system.pop(int(system_cards[i])-q)
+            q=q+1
+        system.append(house)
+    else:
+        print("no")
+        #check case
+
+# #distribte again
+# for i in range(8):
+#     p1.append(a.pop())
+#     p2.append(a.pop())
+
+
+
 def players_turn(player, score_card):
     print("your cards are \n ", player)
+    print("system cards are \n", system)
     if len(system) == 0:
         # if no card is there player have to throw a card
         system.append([player.pop(int(input("index of card to be thrown")))])
 
 
-
     else:
-        print("system cards are \n", system)
         choice = input("choose - pick,house,throw")
 
         if choice == "pick":
-            # add choice to pickup more than one deck
-            deck = int(input("give the index of deck to be picked"))
-            card = int(input("index of your card "))
+            card = int(input("index of your card \n "))
             score_card.append(player.pop(card))
-            for i in range(len(system[deck])):
-                score_card.append(system[deck][i])
-            system.pop(deck)
-            # print(system,"\n",player,"\n",score_card,"\n")
-            #add seep
-
+            deck = input("index of cards to be picked")
+            # check
+            if len(deck)>1:
+                q = 0
+                for i in range(len(deck)):
+                    score_card.append([system.pop(int(deck[i])-q)][0])
+                    q = q + 1
+            else:
+                for i in range(len(system[int(deck[0])])):
+                    score_card.append(system[int(deck[0])][i])
+                system.pop(int(deck))
+            last_pickup = score_card
+            if len(system) == 0:
+                score_card.append(("sweep", 50))
 
         elif choice == "throw":
             card = int(input("index of card to be thrown"))
             system.append([player.pop(card)])
+
 
 
         elif choice == "house":
@@ -110,89 +139,96 @@ def players_turn(player, score_card):
                 # check case
                 system[system_deck].append(player.pop(your_card))
 
+
             elif house == 3:
-                your_card = int(input("index of your card"))
+                card = int(input("index of your card"))
                 system_deck = int(input("index of house in system"))
 
-                if player[your_card][1] == vlaue_of_house(system_deck):
-                    system[system_deck].append(player.pop(your_card))
+                if vlaue_of_house(system_deck)/player[card][1]==1.0 or 2.0 or 3.0 or 4.0:
+                    system[system_deck].append(player.pop(card))
                 else:
-                    card_from_system = int(input("index of card from system to put in house"))
-                    if len(system[card_from_system]) == 1 and player[your_card][1] + system[card_from_system][0][
-                        1] == vlaue_of_house(system_deck):
-                        system[system_deck].append(player.pop(your_card))
-                        system[system_deck].append(system[card_from_system][0])
-                        system.pop(card_from_system)
-                    # check case
+
+                    system_cards = input("index of system cards")
+                    s = player[card][1]
+                    for i in range(len(system_cards)):
+                        s = s + system[int(system_cards[i])][0][1]
+                        print(s)
+                    if s==vlaue_of_house(system_deck):
+                        system[system_deck].append(player.pop(card))
+                        for i in range(len(system_cards)):
+                            system[system_deck].append(system[int(system_cards[i])][0])
+                        q = 0
+                        for i in range(len(system_cards)):
+                            system.pop(int(system_cards[i]) - q)
+                            q = q + 1
 
             elif house == 4:
-                your_card = int(input("index of your card"))
+                card = int(input("index of your card"))
                 system_deck = int(input("index of house in system"))
-                if 8 < (player[your_card][1] + vlaue_of_house(system_deck)) < 14:
-                    system[system_deck].append(player.pop(your_card))
-                elif player[your_card][1] == vlaue_of_house(system_deck):
-                    system[system_deck].append(player.pop(your_card))
+                system_cards = input("index of losse cardsif you want to include else -1 ")
+                if int(system_cards)==-1 and 8 < (player[card][1] + vlaue_of_house(system_deck)) < 14:
+                    system[system_deck].append(player.pop(card))
+                elif vlaue_of_house(system_deck)/player[card][1]==1.0 or 2.0 or 3.0 or 4.0 :
+                    system[system_deck].append(player.pop(card))
                 else:
-                    card_from_system = int(input("index of card from system to put in house"))
-                    if len(system[card_from_system]) == 1 and player[your_card][1] + system[card_from_system][0][
-                        1] == vlaue_of_house(system_deck):
-                        system[system_deck].append(player.pop(your_card))
-                        system[system_deck].append(system[card_from_system][0])
-                        system.pop(card_from_system)
-                    # check case
-    # print(player,"\n",score_card,"\n",system)
-
-
+                    system_cards = input("index of system cards")
+                    s = player[card][1]
+                    for i in range(len(system_cards)):
+                        s = s + system[int(system_cards[i])][0][1]
+                        print(s)
+                    if s == vlaue_of_house(system_deck):
+                        system[system_deck].append(player.pop(card))
+                        for i in range(len(system_cards)):
+                            system[system_deck].append(system[int(system_cards[i])][0])
+                        q = 0
+                        for i in range(len(system_cards)):
+                            system.pop(int(system_cards[i]) - q)
+                            q = q + 1
+            print(player, "\n", score_card, "\n", system)
 while p1 and p2:
     players_turn(p2, p2_score)
     players_turn(p1, p1_score)
 players_turn(p2, p2_score)
 
-"""
- cases of house:
-1. create pakka house
-   -> throw same card as a card in system between(9,13) 
-2. create kaccha house
-   -> throw a card on another single card in system to make the sum between 9,13
-3.contribute to pakka house
-   -> throw a card of same value as of house 
-               or 
-   -> 1 card from player and 1 single card from system where sum is equal to value of house
+# for i in range(12):
+#     p1.append(a.pop())
+#     p2.append(a.pop())
 
-4.contribute to kaccha house 
-   -> add one card to kaccha house to increase its value
-               or 
-   -> throw your card same as house value to make it pakka house
-               or 
-   -> 1 card from player and 1 single card from system where sum is equal to value of house and make it pakka house
-"""
+while p1 and p2:
+    players_turn(p1, p1_score)
+    players_turn(p2, p2_score)
 
-# include last pickup
-# include house option for first player
-#include multiple deck pickup for players
-#include again distribution of cards
-#complete the game
+print(system,"\n",p1_score,"\n",p2_score)
 
+def remaining_cards(score_card):
+    for i in range(len(system)):
+        for j in range(len(system[i])):
+            score_card.append(system[i][j])
 
-# s1=0
-# s2=0
-#
-# def count_score(score_card):
-#     s=0
-#     for card in score_card:
-#         if card[0]=="spades":
-#             s=s+card[1]
-#         if card[1]==1 and card[0]!="spades":
-#             s=s+1
-#         if card[0]=="diamonds" and card[1]==10:
-#             s=s+6
-#
-#     return s
-# s1=count_score(p1_score)
-# s2=count_score(p2_score)
+if last_pickup==p1_score:
+    remaining_cards(p1_score)
+else:
+    remaining_cards((p2_score))
+system=[]
+
+def count_score(score_card):
+    s=0
+    for card in score_card:
+        if card[0]=="♠️":
+            s=s+card[1]
+        if card[1]==1 and card[0]!="♠️":
+            s=s+1
+        if card[0]=="🔶" and card[1]==10:
+            s=s+6
+        if card[0]=="seep":
+            s=s+card[1]
+
+    return s
+s1=count_score(p1_score)
+s2=count_score(p2_score)
 # print(p1,p2,system)
-# print(s1,s2)
-# if s1>s2:
-#     print("player 1 is winner")
-# else:
-#     print("player 2 is winner")
+print(s1,s2)
+if s1>s2:
+    print("player 1 is winner")
+else:
+    print("player 2 is winner")
