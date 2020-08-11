@@ -82,10 +82,10 @@ elif choice == "house":
         print("no")
         #check case
 
-# #distribte again
-# for i in range(8):
-#     p1.append(a.pop())
-#     p2.append(a.pop())
+#distribte again
+for i in range(8):
+    p1.append(a.pop())
+    p2.append(a.pop())
 
 
 
@@ -190,9 +190,9 @@ while p1 and p2:
     players_turn(p1, p1_score)
 players_turn(p2, p2_score)
 
-# for i in range(12):
-#     p1.append(a.pop())
-#     p2.append(a.pop())
+for i in range(12):
+    p1.append(a.pop())
+    p2.append(a.pop())
 
 while p1 and p2:
     players_turn(p1, p1_score)
