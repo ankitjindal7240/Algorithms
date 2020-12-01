@@ -1,5 +1,5 @@
 import time
-
+# https://www.geeksforgeeks.org/write-a-program-to-reverse-an-array-or-string/
 arr = [6,8,2,55,4,99,9,21,2,13]
 
 def insertion(array):
